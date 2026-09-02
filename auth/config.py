@@ -1,7 +1,6 @@
 import os
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-# SECRET_KEY = "learn-to-build-new-api-key-creation-2026"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
