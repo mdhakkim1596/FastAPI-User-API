@@ -3,9 +3,9 @@ from models.user import CreateUser, UserResponse, UpdateUser
 from database.models import UserTable
 from auth.utils import hash_password
 
-user_db = []
-user_passwords = {}
-next_id = 1
+# user_db = []
+# user_passwords = {}
+# next_id = 1
 
 
 def create_user(db: Session, user: CreateUser) -> UserResponse:
@@ -98,12 +98,12 @@ def patch_user(db: Session, user_id: int, updated_fields: UpdateUser) -> UserRes
     user = db.query(UserTable).filter(UserTable.id == user_id).first()
     if user is None:
         return None
-    patch_data = updated_fields.model_dump(exclude=True)
+    patch_data = updated_fields.model_dump(exclude_none=True)
     for key, value in patch_data.items():
         setattr(user, key, value)
-        db.commit()
-        db.refresh(user)
-        return True
+    db.commit()
+    db.refresh(user)
+    return user
 
 
 # def patch_user(user_id: int, updated_fields: UpdateUser) -> UserResponse:
