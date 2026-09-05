@@ -109,3 +109,35 @@ def test_patch_user():
     assert response.status_code == 200
     assert response.json()["name"] == "Updated Name"
     assert response.json()["email"] == "authuser@gmail.com"
+
+
+def test_get_all_users():
+    token = get_token()
+    response = client.get("/users", headers={"Authorization": f"Bearer {token}"})
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 1
+    assert response.json()[0]["email"] == "authuser@gmail.com"
+
+
+def test_put_user():
+    token = get_token()
+    response = client.put(
+        "/users/1",
+        json={
+            "name": "Updated User",
+            "email": "authuser@gmail.com",
+            "age": 26,
+            "phone_number": "+919876543021",
+            "gender": "Male",
+            "password": "Testuser@123",
+            "confirm_password": "Testuser@123",
+            "home_address": "None",
+            "office_address": "None",
+            "occupation": "None"
+        },
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert response.status_code == 200
+    assert response.json()["name"] == "Updated User"
+    assert response.json()["age"] == 26
